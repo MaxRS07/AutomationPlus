@@ -1,0 +1,31 @@
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.ID;
+using System.Security.AccessControl;
+using AutomationPlus.Content.Items;
+
+namespace AutomationPlus.Content.Projectiles
+{
+    public class MultitoolHeld : ModProjectile
+    {
+        public override string Texture => "Terraria/Images/Item_1";
+        public override void SetDefaults()
+        {
+            base.SetDefaults();
+        }
+
+        public override void AI()
+        {
+            if (!Projectile.TryGetOwner(out Player player))
+            {
+                return;
+            }
+
+            if (player.HeldItem.type == ModContent.ItemType<Multitool>())
+            {
+                Projectile.timeLeft = 2;
+            }
+
+        }
+    }
+}

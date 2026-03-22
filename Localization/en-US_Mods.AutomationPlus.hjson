@@ -1,0 +1,60 @@
+# This file will automatically update with entries for new content after a build and reload.
+
+Items: {
+	Multitool: {
+		DisplayName: Multitool
+		Tooltip:
+			'''
+			Template of an item
+			Replacing this tooltip is duty 
+			It's snowing on Mt.Fuji
+			'''
+	}
+
+	LunarDartTrapItem: {
+		DisplayName: Lunar Dart Trap Item
+		Tooltip: ""
+	}
+
+	MirrorItem: {
+		DisplayName: Mirror Item
+		Tooltip: ""
+	}
+
+	AdvancedConveyorBeltClockwiseItem: {
+		DisplayName: Advanced Conveyor Belt (Clockwise)
+		Tooltip: ""
+	}
+
+	AdvancedConveyorBeltCounterClockwiseItem: {
+		DisplayName: Advanced Conveyor Belt (Counter Clockwise)
+		Tooltip: ""
+	}
+
+	ConveyorUpgradeI: {
+		DisplayName: Conveyor Upgrade I
+		Tooltip: ""
+	}
+
+	UltimateConveyorBeltClockwiseItem: {
+		DisplayName: Ultimate Conveyor Belt Clockwise Item
+		Tooltip: ""
+	}
+
+	UltimateConveyorBeltCounterClockwiseItem: {
+		DisplayName: Ultimate Conveyor Belt Counter Clockwise Item
+		Tooltip: ""
+	}
+
+	ConveyorUpgradeII: {
+		DisplayName: Conveyor Upgrade I I
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	LunarDart.DisplayName: Lunar Dart
+	MultitoolHeld.DisplayName: Multitool Held
+}
+
+NPCs.MirrorLich.DisplayName: Mirror Lich
