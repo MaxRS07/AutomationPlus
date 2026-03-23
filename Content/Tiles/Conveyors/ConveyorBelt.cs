@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace AutomationPlus.Content.Tiles
+namespace AutomationPlus.Content.Tiles.Conveyors
 {
     public abstract class ConveyorBelt : ModTile
     {

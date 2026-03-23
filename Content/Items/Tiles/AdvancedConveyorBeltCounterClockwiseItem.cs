@@ -1,4 +1,4 @@
-using AutomationPlus.Content.Tiles;
+using AutomationPlus.Content.Tiles.Conveyors;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

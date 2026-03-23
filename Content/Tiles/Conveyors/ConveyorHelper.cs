@@ -6,8 +6,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Physics;
 
-namespace AutomationPlus.Content.Tiles
+namespace AutomationPlus.Content.Tiles.Conveyors
 {
     public static class ConveyorHelper
     {
@@ -69,8 +70,7 @@ namespace AutomationPlus.Content.Tiles
             return (
                 type == TileID.ConveyorBeltLeft ||
                 type == TileID.ConveyorBeltRight ||
-                type == ModContent.TileType<AdvancedConveyorBeltClockwise>() ||
-                type == ModContent.TileType<AdvancedConveyorBeltCounterClockwise>()
+                ModContent.GetModTile(type) is ConveyorBelt
             );
         }
 
@@ -94,11 +94,19 @@ namespace AutomationPlus.Content.Tiles
         {
             if (type == TileID.ConveyorBeltRight)
             {
-                return (ushort)ModContent.TileType<AdvancedConveyorBeltClockwise>();
+                return (ushort)ModContent.TileType<AdvancedConveyorBeltCounterClockwise>();
             }
             if (type == TileID.ConveyorBeltLeft)
             {
-                return (ushort)ModContent.TileType<AdvancedConveyorBeltCounterClockwise>();
+                return (ushort)ModContent.TileType<AdvancedConveyorBeltClockwise>();
+            }
+            if (type == ModContent.TileType<AdvancedConveyorBeltClockwise>())
+            {
+                return (ushort)ModContent.TileType<UltimateConveyorBeltClockwise>();
+            }
+            if (type == ModContent.TileType<AdvancedConveyorBeltCounterClockwise>())
+            {
+                return (ushort)ModContent.TileType<UltimateConveyorBeltCounterClockwise>();
             }
             return type;
         }
@@ -108,7 +116,35 @@ namespace AutomationPlus.Content.Tiles
             {
                 return ModContent.ItemType<ConveyorUpgradeI>();
             }
+            if (type == ModContent.TileType<AdvancedConveyorBeltClockwise>() || type == ModContent.TileType<AdvancedConveyorBeltCounterClockwise>())
+            {
+                return ModContent.ItemType<ConveyorUpgradeII>();
+            }
             return 0;
+        }
+    }
+    public class AutomationGolfHelper : IBallContactListener
+    {
+        public void OnCollision(PhysicsProperties properties, ref Vector2 position, ref Vector2 velocity, ref BallCollisionEvent collision)
+        {
+            var speed = 2.5f;
+            var modTile = ModContent.GetModTile(collision.Tile.TileType);
+            if (modTile != null && modTile is ConveyorBelt conveyor)
+            {
+                speed = conveyor.GetBeltSpeed();
+            }
+            float num1 = speed * collision.TimeScale;
+            Vector2 vector2_3 = new(-collision.Normal.Y, collision.Normal.X);
+            float num2 = Vector2.Dot(velocity, vector2_3);
+            if ((double)num2 < (double)num1)
+            {
+                velocity += vector2_3 * MathHelper.Clamp(num1 - num2, 0.0f, num1 * 0.5f);
+            }
+        }
+
+        public void OnPassThrough(PhysicsProperties properties, ref Vector2 position, ref Vector2 velocity, ref float angularVelocity, ref BallPassThroughEvent passThrough)
+        {
+            return;
         }
     }
 }

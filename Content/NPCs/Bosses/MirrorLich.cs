@@ -21,26 +21,5 @@ namespace AutomationPlus.Content.NPCs.Bosses
             NPC.knockBackResist = 0.5f;
             NPC.aiStyle = -1; // Custom AI
         }
-
-        public override void AI()
-        {
-            // Basic AI: Move towards the player and attack
-            Player target = Main.player[NPC.target];
-            if (target.active && !target.dead)
-            {
-                Vector2 direction = target.Center - NPC.Center;
-                direction.Normalize();
-                direction *= 3f; // Move speed
-
-                NPC.velocity = (NPC.velocity * 20f + direction) / 21f; // Smooth movement
-
-                // Attack logic (e.g., shoot projectiles every few seconds)
-                if (Main.rand.NextBool(120)) // Roughly every 2 seconds
-                {
-                    int projectileType = ModContent.ProjectileType<Content.Projectiles.LunarDart>();
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, direction * 5f, projectileType, 20, 2);
-                }
-            }
-        }
     }
 }

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Terraria.ID;
 using AutomationPlus.UI.Elements;
 using AutomationPlus.Content.Tiles.Traps;
+using AutomationPlus.Content.Tiles.Functional;
+using Terraria.DataStructures;
 
 namespace AutomationPlus.UI
 {
@@ -80,6 +82,24 @@ namespace AutomationPlus.UI
             }
         }
 
+        public void NotifySpawnToggle(bool enabled)
+        {
+            if (configuredTiles.Count == 0)
+            {
+                return;
+            }
+
+            var spawnBlockSystem = ModContent.GetInstance<SpawnBlockSystem>();
+            foreach (var tilePosition in configuredTiles)
+            {
+                var point16 = new Point16(tilePosition.X, tilePosition.Y);
+                if (spawnBlockSystem.TryGetSpawnBlockerEntityAtPosition(point16, out var entity))
+                {
+                    entity.ShowRange = enabled;
+                }
+            }
+        }
+
         public void SetMainPanelPosition(float leftPixels, float topPixels)
         {
             if (MultitoolConfigState == null)
@@ -126,5 +146,16 @@ namespace AutomationPlus.UI
                 MultitoolConfigInterface.Update(gameTime);
             }
         }
+
+        public void SetDirectionalView()
+        {
+            ResetView();
+            MultitoolConfigState?.SetDirectionalView();
+        }
+        public void ResetView()
+        {
+            MultitoolConfigState?.ResetView();
+        }
+
     }
 }

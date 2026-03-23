@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AutomationPlus.Content.Tiles
+namespace AutomationPlus.Content.Tiles.Conveyors
 {
     public class UltimateConveyorBeltClockwise : ConveyorBelt
     {
@@ -17,6 +17,6 @@ namespace AutomationPlus.Content.Tiles
 
         public override int BeltDirection() => 1;
 
-        public override ushort ReversedType() => (ushort)ModContent.TileType<UltimateConveyorBeltClockwise>();
+        public override ushort ReversedType() => (ushort)ModContent.TileType<UltimateConveyorBeltCounterClockwise>();
     }
 }

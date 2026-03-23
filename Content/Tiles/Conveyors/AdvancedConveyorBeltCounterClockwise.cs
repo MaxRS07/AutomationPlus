@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AutomationPlus.Content.Tiles
+namespace AutomationPlus.Content.Tiles.Conveyors
 {
     public class AdvancedConveyorBeltCounterClockwise : ConveyorBelt
     {

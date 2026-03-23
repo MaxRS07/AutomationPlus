@@ -6,16 +6,21 @@ using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using Terraria;
+using Terraria.GameContent.Golf;
+using Terraria.GameContent.Metadata;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Physics;
 
-namespace AutomationPlus.Content.Tiles
+namespace AutomationPlus.Content.Tiles.Conveyors
 {
     public class ConveyorSystem : ModSystem
     {
         public override void Load()
         {
             On_Collision.StepConveyorBelt += OnCollisionStepConveyorBelt;
+            On_GolfHelper.ContactListener.OnCollision += OnGolfHelperContactListenerOnCollision;
+            // GolfHelper chage `private static readonly GolfHelper.ContactListener Listener = new GolfHelper.ContactListener();` to custom listener
         }
         public void OnCollisionStepConveyorBelt(On_Collision.orig_StepConveyorBelt orig, Entity entity, float gravDir)
         {
@@ -119,6 +124,57 @@ namespace AutomationPlus.Content.Tiles
             Velocity = new Vector2(0.0f, 2.5f * gravDir);
             Vector2 vector2_3 = Collision.TileCollision(entity.position, Velocity, entity.width, entity.height, false, false, (int)gravDir);
             entity.position += vector2_3;
+        }
+
+        public void OnGolfHelperContactListenerOnCollision(On_GolfHelper.ContactListener.orig_OnCollision orig, GolfHelper.ContactListener self, PhysicsProperties properties, ref Vector2 position, ref Vector2 velocity, ref BallCollisionEvent collision)
+        {
+            TileMaterial byTileId = TileMaterials.GetByTileId(collision.Tile.TileType);
+            Vector2 vector2_1 = velocity * byTileId.GolfPhysics.SideImpactDampening;
+            Vector2 vector2_2 = collision.Normal * Vector2.Dot(velocity, collision.Normal) * (byTileId.GolfPhysics.DirectImpactDampening - byTileId.GolfPhysics.SideImpactDampening);
+            velocity = vector2_1 + vector2_2;
+            Projectile entity = collision.Entity as Projectile;
+            switch (collision.Tile.TileType)
+            {
+                case TileID.ConveyorBeltLeft:
+                case TileID.ConveyorBeltRight:
+                case ushort type when ConveyorHelper.IsConveyor(type):
+                    var speed = 2.5f;
+                    var modTile = ModContent.GetModTile(collision.Tile.TileType);
+                    if (modTile != null && modTile is ConveyorBelt belt)
+                    {
+                        speed = belt.GetBeltSpeed();
+                    }
+                    float num1 = speed * collision.TimeScale;
+                    Vector2 vector2_3 = new(-collision.Normal.Y, collision.Normal.X);
+                    if (collision.Tile.TileType == (ushort)422)
+                        vector2_3 = -vector2_3;
+                    float num2 = Vector2.Dot(velocity, vector2_3);
+                    if ((double)num2 < (double)num1)
+                    {
+                        velocity += vector2_3 * MathHelper.Clamp(num1 - num2, 0.0f, num1 * 0.5f);
+                        break;
+                    }
+                    break;
+                case TileID.GolfHole:
+                    float num3 = velocity.Length() / collision.TimeScale;
+                    if ((double)collision.Normal.Y <= -0.00999999977648258 && (double)num3 <= 100.0)
+                    {
+                        velocity *= 0.0f;
+                        if (entity != null && entity.active)
+                        {
+                            self.PutBallInCup(entity, collision);
+                            break;
+                        }
+                        break;
+                    }
+                    break;
+            }
+            if (entity == null || (double)velocity.Y >= -0.300000011920929 || ((double)velocity.Y <= -2.0 || (double)velocity.Length() <= 1.0))
+                return;
+            Dust dust = Dust.NewDustPerfect(collision.Entity.Center, DustID.Smoke, new Vector2?(collision.Normal), (int)sbyte.MaxValue, new Color(), 1f);
+            dust.scale = 0.7f;
+            dust.fadeIn = 1f;
+            dust.velocity = dust.velocity * 0.5f + Main.rand.NextVector2CircularEdge(0.5f, 0.4f);
         }
     }
 }

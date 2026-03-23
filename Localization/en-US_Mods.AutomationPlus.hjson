@@ -32,22 +32,35 @@ Items: {
 	}
 
 	ConveyorUpgradeI: {
-		DisplayName: Conveyor Upgrade I
-		Tooltip: ""
+		DisplayName: Advanced Conveyor Upgrade
+		Tooltip:
+			'''
+			Right Click to upgrade a single conveyor
+			RShift + Right Click to upgrade all connected conveyors
+			'''
 	}
 
 	UltimateConveyorBeltClockwiseItem: {
-		DisplayName: Ultimate Conveyor Belt Clockwise Item
+		DisplayName: Ultimate Conveyor Belt (Clockwise)
 		Tooltip: ""
 	}
 
 	UltimateConveyorBeltCounterClockwiseItem: {
-		DisplayName: Ultimate Conveyor Belt Counter Clockwise Item
+		DisplayName: Ultimate Conveyor Belt (Counter Clockwise)
 		Tooltip: ""
 	}
 
 	ConveyorUpgradeII: {
-		DisplayName: Conveyor Upgrade I I
+		DisplayName: Ultimate Conveyor Upgrade
+		Tooltip:
+			'''
+			Right Click to upgrade a single advanced conveyor
+			RShift + Right Click to upgrade all connected advanced conveyors
+			'''
+	}
+
+	SpawnBlockerItem: {
+		DisplayName: Spawn Blocker Item
 		Tooltip: ""
 	}
 }
@@ -55,6 +68,7 @@ Items: {
 Projectiles: {
 	LunarDart.DisplayName: Lunar Dart
 	MultitoolHeld.DisplayName: Multitool Held
+	LunarBeam.DisplayName: Lunar Beam
 }
 
 NPCs.MirrorLich.DisplayName: Mirror Lich
