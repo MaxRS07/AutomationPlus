@@ -36,6 +36,8 @@ namespace AutomationPlus.Content.Projectiles
             Projectile.timeLeft = 70;
             Projectile.trap = true;
             Projectile.scale = 0.25f;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 15;
         }
         public override void OnSpawn(IEntitySource source)
         {
@@ -198,12 +200,12 @@ namespace AutomationPlus.Content.Projectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            DamageModifier *= 0.9f;
+            DamageModifier *= 0.95f;
             modifiers.FinalDamage *= DamageModifier;
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            DamageModifier *= 0.9f;
+            DamageModifier *= 0.95f;
             modifiers.FinalDamage *= DamageModifier;
         }
     }
