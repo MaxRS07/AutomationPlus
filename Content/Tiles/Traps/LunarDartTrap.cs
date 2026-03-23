@@ -24,7 +24,7 @@ namespace AutomationPlus.Content.Tiles.Traps
 
         protected override int ShootCooldown() => 320;
 
-        protected override int ShootDamage() => 75;
+        protected override int ShootDamage() => 85;
 
         protected override float ShootKnockback() => 4f;
 
