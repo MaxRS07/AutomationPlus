@@ -16,6 +16,13 @@ namespace AutomationPlus.Content.Projectiles
             get => Projectile.ai[0];
             set => Projectile.ai[0] = value;
         }
+
+        private float DamageModifier
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
+
         const int AnimationTime = 15;
         const int MaxBeamLength = 1600;
         public override string Texture => $"Terraria/Images/Projectile_{ProjectileID.PhantasmalDeathray}"; //placeholder
@@ -32,6 +39,7 @@ namespace AutomationPlus.Content.Projectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
+            DamageModifier = 1;
             Projectile.Center -= Projectile.velocity.SafeNormalize(Vector2.Zero) * 8f;
         }
         public override void AI()
@@ -187,5 +195,16 @@ namespace AutomationPlus.Content.Projectiles
         }
 
         public override bool ShouldUpdatePosition() => false;
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            DamageModifier *= 0.9f;
+            modifiers.FinalDamage *= DamageModifier;
+        }
+        public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
+        {
+            DamageModifier *= 0.9f;
+            modifiers.FinalDamage *= DamageModifier;
+        }
     }
 }
