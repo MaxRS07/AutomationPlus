@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using AutomationPlus.Content.Items;
 using AutomationPlus.Content.Tiles.Traps;
 using AutomationPlus.UI;
 using AutomationPlus.UI.Elements;
@@ -128,28 +129,14 @@ namespace AutomationPlus.Content.Tiles.Traps
                     return; // No change needed
             }
         }
-
-        public override void MouseOverFar(int i, int j)
-        {
-            var player = Main.LocalPlayer;
-            player.noThrow = 2;
-            player.cursorItemIconEnabled = true;
-            // player.cursorItemIconID = ModContent.ItemType<LunarDartTrapItem>();
-        }
     }
 
-    public class EntitySource_Trap : IEntitySource
+    public class EntitySource_Trap(int i, int j) : IEntitySource
     {
-        public int I { get; }
-        public int J { get; }
+        public int I { get; } = i;
+        public int J { get; } = j;
 
         public string Context => "";
-
-        public EntitySource_Trap(int i, int j)
-        {
-            I = i;
-            J = j;
-        }
 
         public override string ToString()
         {

@@ -10,7 +10,7 @@ namespace AutomationPlus.Content.Items
 	// This is a basic item template.
 	// Please see tModLoader's ExampleMod for every other example:
 	// https://github.com/tModLoader/tModLoader/tree/stable/ExampleMod
-	public class Multitool : ModItem
+	public class Multihammer : ModItem
 	{
 		// The Display Name and Tooltip of this item can be edited in the 'Localization/en-US_Mods.AutomationPlus.hjson' file.
 		public override void SetDefaults()
@@ -30,10 +30,7 @@ namespace AutomationPlus.Content.Items
 			Item.shoot = ModContent.ProjectileType<MultitoolHeld>();
 		}
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 		{
@@ -43,6 +40,12 @@ namespace AutomationPlus.Content.Items
 		public override bool CanUseItem(Player player)
 		{
 			return player.ownedProjectileCounts[ModContent.ProjectileType<MultitoolHeld>()] < 1;
+		}
+
+		public override void HoldItem(Player player)
+		{
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = Item.type;
 		}
 
 		public override void AddRecipes()

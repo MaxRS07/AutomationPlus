@@ -83,15 +83,15 @@ namespace AutomationPlus.Content.Projectiles
             Vector2 direction = Projectile.velocity.SafeNormalize(Vector2.UnitY);
             Texture2D texture = TextureAssets.Projectile[Type].Value;
 
-            Rectangle endSource = new Rectangle(0, 0, texture.Width, 12);
-            Rectangle midSource = new Rectangle(0, 12, texture.Width, 2);
+            Rectangle endSource = new(0, 0, texture.Width, 12);
+            Rectangle midSource = new(0, 12, texture.Width, 2);
 
-            Vector2 endOrigin = new Vector2(endSource.Width * 0.5f, 0f);
-            Vector2 midOrigin = new Vector2(midSource.Width * 0.5f, 0f);
+            Vector2 endOrigin = new(endSource.Width * 0.5f, 0f);
+            Vector2 midOrigin = new(midSource.Width * 0.5f, 0f);
 
             float rotation = direction.ToRotation() - MathHelper.PiOver2;
 
-            Vector2 scale = new Vector2(BeamWidth * Projectile.scale, Projectile.scale);
+            Vector2 scale = new(BeamWidth * Projectile.scale, Projectile.scale);
 
             Vector2 beamStart = Projectile.Center;
 

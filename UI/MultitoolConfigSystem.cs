@@ -8,6 +8,7 @@ using AutomationPlus.UI.Elements;
 using AutomationPlus.Content.Tiles.Traps;
 using AutomationPlus.Content.Tiles.Functional;
 using Terraria.DataStructures;
+using Microsoft.CodeAnalysis;
 
 namespace AutomationPlus.UI
 {
@@ -40,6 +41,7 @@ namespace AutomationPlus.UI
         public void HideUI()
         {
             MultitoolConfigInterface?.SetState(null);
+            UISliderBetter.ResetInteractionState();
             configuredTiles.Clear();
         }
 
@@ -82,7 +84,7 @@ namespace AutomationPlus.UI
             }
         }
 
-        public void NotifySpawnToggle(bool enabled)
+        public void NotifySpawn(bool? enabled, int? rangeX, int? rangeY)
         {
             if (configuredTiles.Count == 0)
             {
@@ -95,7 +97,9 @@ namespace AutomationPlus.UI
                 var point16 = new Point16(tilePosition.X, tilePosition.Y);
                 if (spawnBlockSystem.TryGetSpawnBlockerEntityAtPosition(point16, out var entity))
                 {
-                    entity.ShowRange = enabled;
+                    entity.ShowRange = enabled ?? entity.ShowRange;
+                    entity.RangeX = rangeX ?? entity.RangeX;
+                    entity.RangeY = rangeY ?? entity.RangeY;
                 }
             }
         }
@@ -134,7 +138,8 @@ namespace AutomationPlus.UI
                         }
                         return true;
                     },
-                    InterfaceScaleType.Game)
+                    InterfaceScaleType.UI
+                    )
                 );
             }
         }
@@ -149,13 +154,11 @@ namespace AutomationPlus.UI
 
         public void SetDirectionalView()
         {
-            ResetView();
             MultitoolConfigState?.SetDirectionalView();
         }
-        public void ResetView()
+        public void SetSpawnBlockView(int rangeX, int rangeY, bool showRange)
         {
-            MultitoolConfigState?.ResetView();
+            MultitoolConfigState?.SetSpawnBlockView(rangeX, rangeY, showRange);
         }
-
     }
 }

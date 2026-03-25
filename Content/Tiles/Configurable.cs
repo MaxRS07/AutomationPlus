@@ -33,5 +33,16 @@ namespace AutomationPlus.Content.Tiles.Traps
         {
             // Default implementation - can be overridden by derived classes
         }
+        public override void MouseOverFar(int i, int j)
+        {
+            var player = Main.LocalPlayer;
+            if (player.HeldItem.type != ModContent.ItemType<Multitool>())
+            {
+                return;
+            }
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            // player.cursorItemIconID = ModContent.ItemType<LunarDartTrapItem>();
+        }
     }
 }

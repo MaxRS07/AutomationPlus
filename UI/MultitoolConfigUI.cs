@@ -8,20 +8,21 @@ using System.Collections.Generic;
 using Terraria.ModLoader.UI;
 using AutomationPlus.UI.Elements;
 using Terraria.GameContent;
+using Terraria.Localization;
+using Microsoft.CodeAnalysis;
 
 namespace AutomationPlus.UI
 {
     public class MultitoolConfigState : UIState
     {
         public UIPanel MainPanel;
-
-        public UIArrowButton[] DirectionalButtons = new UIArrowButton[4];
         public Vector2 ScreenPosition = new();
-        private Vector2 MainPanelTargetPosition = new();
 
         public void SetMainPanelTargetPosition(float leftPixels, float topPixels)
         {
-            MainPanelTargetPosition = new Vector2(leftPixels, topPixels);
+            MainPanel.Top.Set(topPixels, 0f);
+            MainPanel.Left.Set(leftPixels, 0f);
+            MainPanel.Recalculate();
         }
         public void ResetView()
         {
@@ -29,6 +30,8 @@ namespace AutomationPlus.UI
         }
         public void SetDirectionalView()
         {
+            ResetView();
+            MainPanel.Height.Set(50, 0f);
             var text = new UIText("Direction");
             text.Left.Set(4, 0f);
             MainPanel.Append(text);
@@ -37,6 +40,7 @@ namespace AutomationPlus.UI
                 var direction = (UIArrowButton.Direction)i;
                 var button = new UIArrowButton(direction);
                 button.Left.Set(4, i * 0.25f);
+                button.Top.Set(0, 0.5f);
                 button.OnChangeDirection += (newDir) =>
                 {
                     var sys = ModContent.GetInstance<MultitoolConfigSystem>();
@@ -47,28 +51,69 @@ namespace AutomationPlus.UI
                     sys.NotifyDirectionChanged(newDir);
                     sys.HideUI();
                 };
-                DirectionalButtons[i] = button;
                 MainPanel.Append(button);
             }
         }
 
-        public void SetSpawnBlockView()
+        public void SetSpawnBlockView(int rangeX, int rangeY, bool showRange)
         {
+            ResetView();
+            MainPanel.Height.Set(60, 0f);
+            MainPanel.Width.Set(140, 0f);
+
             var text = new UIText("Spawn Blocker");
             text.Left.Set(4, 0f);
             MainPanel.Append(text);
 
-            var toggle = new UIToggleImage(
-                TextureAssets.Buff[9], 50, 50, new(), new()
+            var heightSlider = new UISliderBetter(
+                () => MathHelper.Clamp((rangeY - 1) / 63f, 0f, 1f),
+                (value) =>
+                {
+                    float normalized = MathHelper.Clamp(value, 0f, 1f);
+                    rangeY = 1 + (int)(normalized * 63f);
+                    var sys = ModContent.GetInstance<MultitoolConfigSystem>();
+                    sys?.NotifySpawn(null, null, rangeY);
+                },
+                null,
+                Color.White
             );
-            toggle.Left.Set(4, 0.25f);
-            toggle.OnLeftClick += (evt, element) =>
+            heightSlider.Left.Set(5, 0f);
+            heightSlider.Top.Set(0, 0.5f);
+            heightSlider.Width.Set(0, 0.7f);
+            heightSlider.Height.Set(8, 0f);
+            MainPanel.Append(heightSlider);
+
+            var widthSlider = new UISliderBetter(
+                () => MathHelper.Clamp((rangeX - 1) / 63f, 0f, 1f),
+                (value) =>
+                {
+                    float normalized = MathHelper.Clamp(value, 0f, 1f);
+                    rangeX = 1 + (int)(normalized * 63f);
+                    var sys = ModContent.GetInstance<MultitoolConfigSystem>();
+                    sys?.NotifySpawn(null, rangeX, null);
+                },
+                null,
+                Color.White
+            );
+            widthSlider.Left.Set(5, 0f);
+            widthSlider.Top.Set(15, 0.5f);
+            widthSlider.Width.Set(0, 0.7f);
+            widthSlider.Height.Set(8, 0f);
+            MainPanel.Append(widthSlider);
+
+            var toggle = new UIToggleButton(
+                TextureAssets.Buff[9],
+                showRange
+            );
+            toggle.Width.Set(20, 0f);
+            toggle.Height.Set(20, 0f);
+            toggle.Top.Set(0, 0.5f);
+            toggle.Left.Set(15, 0.7f);
+
+            toggle.OnToggle += (isOn) =>
             {
                 var sys = ModContent.GetInstance<MultitoolConfigSystem>();
-                if (sys != null)
-                {
-                    sys.NotifySpawnToggle(toggle.IsOn);
-                }
+                sys?.NotifySpawn(isOn, null, null);
             };
             MainPanel.Append(toggle);
         }
@@ -92,19 +137,11 @@ namespace AutomationPlus.UI
             {
                 return;
             }
-            var realPosition = MainPanelTargetPosition + Vector2.UnitY * 20f - ScreenPosition; // Adjust for tile size and panel padding
-
-            MainPanel.Left.Set(realPosition.X, 0f);
-            MainPanel.Top.Set(realPosition.Y, 0f);
-            MainPanel.Recalculate();
 
             if (Main.mouseLeft && !MainPanel.IsMouseHovering)
             {
                 var sys = ModContent.GetInstance<MultitoolConfigSystem>();
-                if (sys != null)
-                {
-                    sys.HideUI();
-                }
+                sys?.HideUI();
             }
         }
     }
