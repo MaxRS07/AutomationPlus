@@ -13,7 +13,7 @@ using Microsoft.CodeAnalysis;
 
 namespace AutomationPlus.UI
 {
-    public class MultitoolConfigState : UIState
+    public class MultihammerConfigState : UIState
     {
         public UIPanel MainPanel;
         public Vector2 ScreenPosition = new();
@@ -43,7 +43,7 @@ namespace AutomationPlus.UI
                 button.Top.Set(0, 0.5f);
                 button.OnChangeDirection += (newDir) =>
                 {
-                    var sys = ModContent.GetInstance<MultitoolConfigSystem>();
+                    var sys = ModContent.GetInstance<MultihammerConfigSystem>();
                     if (sys == null)
                     {
                         return;
@@ -71,7 +71,7 @@ namespace AutomationPlus.UI
                 {
                     float normalized = MathHelper.Clamp(value, 0f, 1f);
                     rangeY = 1 + (int)(normalized * 63f);
-                    var sys = ModContent.GetInstance<MultitoolConfigSystem>();
+                    var sys = ModContent.GetInstance<MultihammerConfigSystem>();
                     sys?.NotifySpawn(null, null, rangeY);
                 },
                 null,
@@ -89,7 +89,7 @@ namespace AutomationPlus.UI
                 {
                     float normalized = MathHelper.Clamp(value, 0f, 1f);
                     rangeX = 1 + (int)(normalized * 63f);
-                    var sys = ModContent.GetInstance<MultitoolConfigSystem>();
+                    var sys = ModContent.GetInstance<MultihammerConfigSystem>();
                     sys?.NotifySpawn(null, rangeX, null);
                 },
                 null,
@@ -112,7 +112,7 @@ namespace AutomationPlus.UI
 
             toggle.OnToggle += (isOn) =>
             {
-                var sys = ModContent.GetInstance<MultitoolConfigSystem>();
+                var sys = ModContent.GetInstance<MultihammerConfigSystem>();
                 sys?.NotifySpawn(isOn, null, null);
             };
             MainPanel.Append(toggle);
@@ -140,7 +140,7 @@ namespace AutomationPlus.UI
 
             if (Main.mouseLeft && !MainPanel.IsMouseHovering)
             {
-                var sys = ModContent.GetInstance<MultitoolConfigSystem>();
+                var sys = ModContent.GetInstance<MultihammerConfigSystem>();
                 sys?.HideUI();
             }
         }

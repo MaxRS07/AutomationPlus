@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace AutomationPlus.Content.Projectiles
 {
-    public class MultitoolHeld : ModProjectile
+    public class MultihammerHeld : ModProjectile
     {
         public override string Texture => "Terraria/Images/Item_1";
         public override void SetDefaults()
@@ -22,7 +22,7 @@ namespace AutomationPlus.Content.Projectiles
                 return;
             }
 
-            if (player.HeldItem.type == ModContent.ItemType<Multitool>())
+            if (player.HeldItem.type == ModContent.ItemType<Multihammer>())
             {
                 Projectile.timeLeft = 2;
             }

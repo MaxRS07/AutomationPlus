@@ -13,34 +13,34 @@ using Microsoft.CodeAnalysis;
 namespace AutomationPlus.UI
 {
     [Autoload(Side = ModSide.Client)]
-    public class MultitoolConfigSystem : ModSystem
+    public class MultihammerConfigSystem : ModSystem
     {
-        internal UserInterface MultitoolConfigInterface;
-        internal MultitoolConfigState MultitoolConfigState;
+        internal UserInterface MultihammerConfigInterface;
+        internal MultihammerConfigState MultihammerConfigState;
         private readonly HashSet<Point> configuredTiles = new();
 
         public event System.Action<UIArrowButton.Direction, Point> DirectionChanged;
 
         public override void PostSetupContent()
         {
-            MultitoolConfigInterface = new UserInterface();
-            MultitoolConfigState = new MultitoolConfigState();
-            MultitoolConfigState.Activate();
-            MultitoolConfigInterface.SetState(null);
+            MultihammerConfigInterface = new UserInterface();
+            MultihammerConfigState = new MultihammerConfigState();
+            MultihammerConfigState.Activate();
+            MultihammerConfigInterface.SetState(null);
         }
 
         public void ShowUI()
         {
-            if (MultitoolConfigInterface == null || MultitoolConfigState == null)
+            if (MultihammerConfigInterface == null || MultihammerConfigState == null)
             {
                 return;
             }
 
-            MultitoolConfigInterface?.SetState(MultitoolConfigState);
+            MultihammerConfigInterface?.SetState(MultihammerConfigState);
         }
         public void HideUI()
         {
-            MultitoolConfigInterface?.SetState(null);
+            MultihammerConfigInterface?.SetState(null);
             UISliderBetter.ResetInteractionState();
             configuredTiles.Clear();
         }
@@ -106,21 +106,21 @@ namespace AutomationPlus.UI
 
         public void SetMainPanelPosition(float leftPixels, float topPixels)
         {
-            if (MultitoolConfigState == null)
+            if (MultihammerConfigState == null)
             {
                 return;
             }
-            MultitoolConfigState.SetMainPanelTargetPosition(leftPixels, topPixels);
+            MultihammerConfigState.SetMainPanelTargetPosition(leftPixels, topPixels);
         }
         public override void ModifyScreenPosition()
         {
-            MultitoolConfigState.ScreenPosition = Main.screenPosition;
+            MultihammerConfigState.ScreenPosition = Main.screenPosition;
         }
 
         public override void Unload()
         {
-            MultitoolConfigInterface = null;
-            MultitoolConfigState = null;
+            MultihammerConfigInterface = null;
+            MultihammerConfigState = null;
         }
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -129,12 +129,12 @@ namespace AutomationPlus.UI
             if (mouseTextIndex != -1)
             {
                 layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "AutomationPlus: Multitool Config",
+                    "AutomationPlus: Multihammer Config",
                     delegate
                     {
-                        if (MultitoolConfigInterface?.CurrentState != null)
+                        if (MultihammerConfigInterface?.CurrentState != null)
                         {
-                            MultitoolConfigInterface.Draw(Main.spriteBatch, new GameTime());
+                            MultihammerConfigInterface.Draw(Main.spriteBatch, new GameTime());
                         }
                         return true;
                     },
@@ -146,19 +146,19 @@ namespace AutomationPlus.UI
 
         public override void UpdateUI(GameTime gameTime)
         {
-            if (MultitoolConfigInterface?.CurrentState != null)
+            if (MultihammerConfigInterface?.CurrentState != null)
             {
-                MultitoolConfigInterface.Update(gameTime);
+                MultihammerConfigInterface.Update(gameTime);
             }
         }
 
         public void SetDirectionalView()
         {
-            MultitoolConfigState?.SetDirectionalView();
+            MultihammerConfigState?.SetDirectionalView();
         }
         public void SetSpawnBlockView(int rangeX, int rangeY, bool showRange)
         {
-            MultitoolConfigState?.SetSpawnBlockView(rangeX, rangeY, showRange);
+            MultihammerConfigState?.SetSpawnBlockView(rangeX, rangeY, showRange);
         }
     }
 }

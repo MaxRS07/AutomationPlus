@@ -1,16 +1,6 @@
 # This file will automatically update with entries for new content after a build and reload.
 
 Items: {
-	Multitool: {
-		DisplayName: Multitool
-		Tooltip:
-			'''
-			Template of an item
-			Replacing this tooltip is duty 
-			It's snowing on Mt.Fuji
-			'''
-	}
-
 	LunarDartTrapItem: {
 		DisplayName: Lunar Dart Trap Item
 		Tooltip: ""
@@ -63,11 +53,21 @@ Items: {
 		DisplayName: Spawn Blocker Item
 		Tooltip: ""
 	}
+
+	Multihammer: {
+		DisplayName: Multihammer
+		Tooltip: ""
+	}
+
+	MiningDummyItem: {
+		DisplayName: Mining Dummy Item
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
 	LunarDart.DisplayName: Lunar Dart
-	MultitoolHeld.DisplayName: Multitool Held
+	MultihammerHeld.DisplayName: Multihammer
 	LunarBeam.DisplayName: Lunar Beam
 }
 

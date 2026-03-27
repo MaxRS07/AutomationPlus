@@ -32,7 +32,7 @@ namespace AutomationPlus.Content.Tiles.Traps
 
         public override void OpenConfigUI(int i, int j)
         {
-            var configSystem = ModContent.GetInstance<MultitoolConfigSystem>();
+            var configSystem = ModContent.GetInstance<MultihammerConfigSystem>();
             if (configSystem == null)
             {
                 return;
@@ -149,17 +149,17 @@ namespace AutomationPlus.Content.Tiles.Traps
 
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
-            if (source is EntitySource_Trap trapSource)
-            {
-                if (Main.masterMode)
-                {
-                    projectile.damage = (int)(projectile.damage * 2.5f);
-                }
-                else if (Main.expertMode)
-                {
-                    projectile.damage = (int)(projectile.damage * 2f);
-                }
-            }
+            // if (source is EntitySource_Trap trapSource)
+            // {
+            //     if (Main.masterMode)
+            //     {
+            //         projectile.damage = (int)(projectile.damage * 2.5f);
+            //     }
+            //     else if (Main.expertMode)
+            //     {
+            //         projectile.damage = (int)(projectile.damage * 2f);
+            //     }
+            // }
         }
     }
 }

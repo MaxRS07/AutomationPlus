@@ -42,7 +42,7 @@ namespace AutomationPlus.Content.Tiles.Functional
 
         public override void OpenConfigUI(int i, int j)
         {
-            var configSystem = ModContent.GetInstance<MultitoolConfigSystem>();
+            var configSystem = ModContent.GetInstance<MultihammerConfigSystem>();
             if (configSystem == null)
             {
                 return;

@@ -27,7 +27,7 @@ namespace AutomationPlus.Content.Items
 			Item.rare = ItemRarityID.Blue;
 			Item.UseSound = SoundID.Item1;
 			Item.autoReuse = true;
-			Item.shoot = ModContent.ProjectileType<MultitoolHeld>();
+			Item.shoot = ModContent.ProjectileType<MultihammerHeld>();
 		}
 
 		public override bool AltFunctionUse(Player player) => true;
@@ -39,7 +39,7 @@ namespace AutomationPlus.Content.Items
 
 		public override bool CanUseItem(Player player)
 		{
-			return player.ownedProjectileCounts[ModContent.ProjectileType<MultitoolHeld>()] < 1;
+			return player.ownedProjectileCounts[ModContent.ProjectileType<MultihammerHeld>()] < 1;
 		}
 
 		public override void HoldItem(Player player)

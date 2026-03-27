@@ -14,10 +14,10 @@ namespace AutomationPlus.Content.Tiles.Traps
     {
         public override bool RightClick(int i, int j)
         {
-            var multitoolType = ModContent.ItemType<Multitool>();
+            var multihammerType = ModContent.ItemType<Multihammer>();
             var player = Main.LocalPlayer;
 
-            if (player.HeldItem.type == multitoolType)
+            if (player.HeldItem.type == multihammerType)
             {
                 OpenConfigUI(i, j);
             }
@@ -36,7 +36,7 @@ namespace AutomationPlus.Content.Tiles.Traps
         public override void MouseOverFar(int i, int j)
         {
             var player = Main.LocalPlayer;
-            if (player.HeldItem.type != ModContent.ItemType<Multitool>())
+            if (player.HeldItem.type != ModContent.ItemType<Multihammer>())
             {
                 return;
             }

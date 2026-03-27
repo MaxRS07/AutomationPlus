@@ -200,13 +200,13 @@ namespace AutomationPlus.Content.Projectiles
 
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            DamageModifier *= 0.95f;
             modifiers.FinalDamage *= DamageModifier * 0.5f;
+            DamageModifier *= 0.95f;
         }
         public override void ModifyHitPlayer(Player target, ref Player.HurtModifiers modifiers)
         {
-            DamageModifier *= 0.95f;
             modifiers.FinalDamage *= DamageModifier;
+            DamageModifier *= 0.95f;
         }
     }
 }
